@@ -39,14 +39,16 @@ def station():
     session = Session(engine)
     """Return a list of the Stations"""
 
+    # Query the DB for all the distinct station
     results = session.query(Measurement.station).distinct().all()
 
 
     session.close()
 
+    # Fromat the list for JSON
     all_stations = list(np.ravel(results))
 
-
+    # Return the result and JSONIFY them
     return jsonify(all_stations)
 
 
@@ -63,7 +65,9 @@ def precipitation():
 
     session.close()
 
+    # Create a dictionary with the date as a key and precipitaion as the value
     all_precipitation = []
+    # Input the results of the query into the dictionary
     for  date, prcp in rain:
         precipitation_dict = {}
         precipitation_dict [date] = prcp
@@ -76,13 +80,14 @@ def precipitation():
 def tobs():
     session = Session(engine)
 
+    # Query the temperature mesurments from the single station
     temperature = session.query(Measurement.tobs).\
     filter(Measurement.station == 'USC00519281').\
     filter(Measurement.date >'2016-08-23').all()
 
     session.close()
 
-
+    # prep the list
     all_stations = list(np.ravel(temperature))
 
     return jsonify(all_stations)
@@ -94,16 +99,17 @@ def temp(start):
 
     session = Session(engine)
 
-    # fixed_date = date.replace(" ", "-").lower()
 
     date_check = session.query(Measurement.date).\
     filter(Measurement.date == start).distinct().all()
 
+    # Create the list of values I want to extract fromt the queries
     sel =[
         func.min(Measurement.tobs),
         func.avg(Measurement.tobs),
         func.max(Measurement.tobs),
         ]
+    # Query and filter by dates larger then start
     temperature = session.query(*sel).\
     filter(Measurement.date >= start).all()
 
