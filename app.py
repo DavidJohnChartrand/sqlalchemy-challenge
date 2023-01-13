@@ -87,7 +87,7 @@ def tobs():
     return jsonify(all_stations)
 
 @app.route("/<start>")
-def Temp(start):
+def temp(start):
     """Fetch the date and reply back with Min, Avg and Max Temp
        the path variable supplied by the user, or a 404 if not."""
 
@@ -114,7 +114,7 @@ def Temp(start):
     except: jsonify({"error": f" Date {start} not found."}), 404
 
 @app.route("/<start>/<end>")
-def Temp2(start, end):
+def temp2(start, end):
     """Fetch the date and reply back with Min, Avg and Max Temp
        the path variable supplied by the user, or a 404 if not."""
 
