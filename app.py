@@ -52,6 +52,7 @@ def station():
 
 @app.route("/precipitation")
 def precipitation():
+    # Create our session (link) from Python to the DB
 
     session = Session(engine)
 
@@ -89,7 +90,7 @@ def tobs():
 @app.route("/<start>")
 def temp(start):
     """Fetch the date and reply back with Min, Avg and Max Temp
-       the path variable supplied by the user, or a 404 if not."""
+       the path variable supplied by the user."""
 
     session = Session(engine)
 
@@ -116,7 +117,7 @@ def temp(start):
 @app.route("/<start>/<end>")
 def temp2(start, end):
     """Fetch the date and reply back with Min, Avg and Max Temp
-       the path variable supplied by the user, or a 404 if not."""
+       the path variable supplied by the user"""
 
     session = Session(engine)
 
@@ -138,4 +139,4 @@ def temp2(start, end):
 
 # Define main behavior
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
